@@ -1,0 +1,11 @@
+# Compiled binary
+batcap
+
+# Generated reports
+batcap_report_*.txt
+
+# OS specific files
+.DS_Store
+
+# Temporary files
+/tmp/batcap-session.json
