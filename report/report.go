@@ -3,7 +3,6 @@ package report
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"batcap/battery"
 
@@ -90,7 +89,7 @@ func Generate(state battery.SessionState) string {
 		state.BatteryModel,
 		state.CycleCount,
 		bmsHealth, state.EnergyFull, state.EnergyFullDesign,
-		formatDuration(state.ElapsedSeconds),
+		battery.FormatDuration(state.ElapsedSeconds),
 		state.InitialCapacity, state.EnergyStart,
 		state.CurrentCapacity, state.EnergyCurrentBMS,
 		state.IntegratedEnergy,
@@ -104,14 +103,4 @@ func Generate(state battery.SessionState) string {
 	sb.WriteString(borderStyle.Render(content))
 
 	return sb.String()
-}
-
-func formatDuration(sec float64) string {
-	d := time.Duration(sec * float64(time.Second))
-	d = d.Round(time.Second)
-	h := d / time.Hour
-	d -= h * time.Hour
-	m := d / time.Minute
-	d -= m * time.Minute
-	return fmt.Sprintf("%dh %dm", h, m)
 }

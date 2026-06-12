@@ -89,7 +89,7 @@ func (m Model) View() string {
 	}
 	sb.WriteString(lipgloss.NewStyle().Foreground(lipgloss.Color("#888888")).Render(fmt.Sprintf("Battery: %s | BMS Health: %.0f%% | Cycles: %d", state.BatteryModel, bmsHealth, state.CycleCount)) + "\n\n")
 
-	sb.WriteString(labelStyle.Render("Elapsed Time:       ") + valueStyle.Render(formatDuration(state.ElapsedSeconds)) + "\n")
+	sb.WriteString(labelStyle.Render("Elapsed Time:       ") + valueStyle.Render(battery.FormatDuration(state.ElapsedSeconds)) + "\n")
 	sb.WriteString(labelStyle.Render("Current Power Draw: ") + valueStyle.Render(fmt.Sprintf("%.2f W", power)) + "\n")
 	sb.WriteString(labelStyle.Render("Battery Capacity:   ") + valueStyle.Render(fmt.Sprintf("%d%%", state.CurrentCapacity)) + "\n")
 	
@@ -109,15 +109,4 @@ func (m Model) View() string {
 	sb.WriteString(lipgloss.NewStyle().Faint(true).Render("Press 'q' or Ctrl+C to stop and generate report."))
 
 	return lipgloss.NewStyle().Margin(1, 2).Render(sb.String())
-}
-
-func formatDuration(sec float64) string {
-	d := time.Duration(sec * float64(time.Second))
-	d = d.Round(time.Second)
-	h := d / time.Hour
-	d -= h * time.Hour
-	m := d / time.Minute
-	d -= m * time.Minute
-	s := d / time.Second
-	return fmt.Sprintf("%02dh %02dm %02ds", h, m, s)
 }
