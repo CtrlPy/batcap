@@ -77,7 +77,7 @@ func (m Model) View() string {
 	}
 
 	state := m.sess.State
-	power := m.sess.CurrentPower()
+	power := state.LastPower
 
 	var sb strings.Builder
 

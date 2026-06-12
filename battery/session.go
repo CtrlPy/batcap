@@ -74,6 +74,12 @@ func (s *Session) StartOrResume(reset bool) error {
 			LastPower:        info.PowerNow,
 		}
 		s.saveState()
+	} else {
+		// Resumed session: prevent dt overflow by resetting timers
+		if info, err := s.reader.ReadInfo(); err == nil {
+			s.State.LastUpdate = time.Now()
+			s.State.LastPower = info.PowerNow
+		}
 	}
 
 	s.ticker = time.NewTicker(1 * time.Second)
@@ -95,6 +101,8 @@ func (s *Session) loop() {
 			dt := now.Sub(s.State.LastUpdate).Seconds()
 			if dt < 0 {
 				dt = 1.0 // safeguard
+			} else if dt > 5.0 {
+				dt = 0 // System was suspended or lagged. Ignore this huge time gap for integration.
 			}
 			
 			// Integrate using Trapezoidal rule for higher scientific accuracy
@@ -151,12 +159,4 @@ func (s *Session) loadState() error {
 		return err
 	}
 	return json.Unmarshal(data, &s.State)
-}
-
-func (s *Session) CurrentPower() float64 {
-	info, err := s.reader.ReadInfo()
-	if err != nil {
-		return 0
-	}
-	return info.PowerNow
 }
