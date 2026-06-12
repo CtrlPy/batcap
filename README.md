@@ -83,7 +83,11 @@ If you have multiple batteries and want to measure a specific one:
 ```
 
 ## How It Works
-`batcap` reads data from `/sys/class/power_supply/BAT*/`. It prioritizes reading `power_now` and `energy_now`. If those are not exposed by your battery driver, it reads `current_now` and `voltage_now` to calculate the power draw dynamically. Every second, it adds `Power * (1/3600)` to its internal integrator.
+`batcap` achieves scientific-grade accuracy by using the following techniques:
+- **Trapezoidal Integration**: Instead of simple Riemann sums, `batcap` uses the Trapezoidal rule `(PowerNow + LastPower) / 2` to perfectly smooth out power spikes between seconds.
+- **Sleep & Resume Protection**: If your laptop goes to sleep or you pause the tool, `batcap` detects the time gap and safely pauses the integration to prevent "phantom" energy spikes.
+- **Exact Percentage Calculation**: Instead of relying on rounded UI percentages (e.g., 95%), the tool calculates the exact fraction of energy dropped based on microWatt-hours to provide an ultra-precise `REAL TESTED HEALTH` conclusion.
+- **Cross-Platform**: On Linux, it reads raw driver data from `/sys/class/power_supply/BAT*/`. On macOS, it reads data directly from the system's `ioreg` interface.
 
 ## License
 MIT
