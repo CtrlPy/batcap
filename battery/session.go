@@ -21,6 +21,7 @@ type SessionState struct {
 	CycleCount        int       `json:"cycle_count"`
 	EnergyFull        float64   `json:"energy_full"`
 	EnergyFullDesign  float64   `json:"energy_full_design"`
+	LastPower         float64   `json:"last_power"`
 }
 
 type Session struct {
@@ -70,6 +71,7 @@ func (s *Session) StartOrResume(reset bool) error {
 			CycleCount:       info.CycleCount,
 			EnergyFull:       info.EnergyFull,
 			EnergyFullDesign: info.EnergyFullDesign,
+			LastPower:        info.PowerNow,
 		}
 		s.saveState()
 	}
@@ -95,13 +97,15 @@ func (s *Session) loop() {
 				dt = 1.0 // safeguard
 			}
 			
-			// Integrate: Power (W) * dt (seconds) / 3600 = Wh
+			// Integrate using Trapezoidal rule for higher scientific accuracy
 			if info.Status == "Discharging" {
-				energyWh := info.PowerNow * (dt / 3600.0)
+				avgPower := (info.PowerNow + s.State.LastPower) / 2.0
+				energyWh := avgPower * (dt / 3600.0)
 				s.State.IntegratedEnergy += energyWh
 			}
 
 			s.State.LastUpdate = now
+			s.State.LastPower = info.PowerNow
 			s.State.EnergyCurrentBMS = info.EnergyNow
 			s.State.CurrentCapacity = info.Capacity
 			s.State.ElapsedSeconds += dt
