@@ -44,6 +44,18 @@ func Generate(state battery.SessionState) string {
 		bmsHealth = (state.EnergyFull / state.EnergyFullDesign) * 100.0
 	}
 
+	pctDropped := float64(state.InitialCapacity - state.CurrentCapacity) / 100.0
+	realHealthStr := "Not enough data (discharge at least 5%)"
+	if pctDropped >= 0.05 && state.EnergyFullDesign > 0 {
+		realFullCap := state.IntegratedEnergy / pctDropped
+		realHealth := (realFullCap / state.EnergyFullDesign) * 100.0
+		realHealthStr = fmt.Sprintf("%.0f%% (%.2f Wh / %.2f Wh)", realHealth, realFullCap, state.EnergyFullDesign)
+	} else if pctDropped > 0 && state.EnergyFullDesign > 0 {
+		realFullCap := state.IntegratedEnergy / pctDropped
+		realHealth := (realFullCap / state.EnergyFullDesign) * 100.0
+		realHealthStr = fmt.Sprintf("%.0f%% (Low accuracy, test too short)", realHealth)
+	}
+
 	content := fmt.Sprintf(`      BATTERY CAPACITY REPORT      
 ───────────────────────────────────
  SYSTEM INFO
@@ -60,7 +72,11 @@ func Generate(state battery.SessionState) string {
  BMS reported:       %.2f Wh      
  Difference:         %s           
                                   
- Avg power draw:     %.1f W`,
+ Avg power draw:     %.1f W
+───────────────────────────────────
+ CONCLUSION
+ BMS Claimed Health: %.0f%%
+ REAL TESTED HEALTH: %s`,
 		state.LaptopModel,
 		state.BatteryModel,
 		state.CycleCount,
@@ -72,6 +88,8 @@ func Generate(state battery.SessionState) string {
 		bmsDiff,
 		diffStr,
 		avgPower,
+		bmsHealth,
+		realHealthStr,
 	)
 
 	sb.WriteString(borderStyle.Render(content))
