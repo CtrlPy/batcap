@@ -15,7 +15,7 @@ func Generate(state battery.SessionState) string {
 	diffStr := ""
 	diffVal := state.IntegratedEnergy - bmsDiff
 
-	if bmsDiff > 0 {
+	if bmsDiff >= 0.1 {
 		pct := (diffVal / bmsDiff) * 100.0
 		if diffVal > 0 {
 			diffStr = fmt.Sprintf("+%.2f Wh (+%.0f%%)", diffVal, pct)
@@ -23,7 +23,12 @@ func Generate(state battery.SessionState) string {
 			diffStr = fmt.Sprintf("%.2f Wh (%.0f%%)", diffVal, pct)
 		}
 	} else {
-		diffStr = fmt.Sprintf("%.2f Wh", diffVal)
+		// If BMS diff is tiny or negative (charging), don't show confusing percentages
+		if diffVal > 0 {
+			diffStr = fmt.Sprintf("+%.2f Wh", diffVal)
+		} else {
+			diffStr = fmt.Sprintf("%.2f Wh", diffVal)
+		}
 	}
 
 	avgPower := 0.0
