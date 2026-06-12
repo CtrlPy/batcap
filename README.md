@@ -15,10 +15,21 @@ Most operating systems and built-in Battery Management Systems (BMS) estimate yo
 - **Auto-Saving Reports:** Automatically saves a plain-text report to your working directory when the measurement is done, or if the battery hits 1% and the system is about to shut down.
 
 ## Installation
+
+### Option 1: Download Pre-compiled Binary (Recommended)
+Download the latest ready-to-use binary for Linux or macOS from the [Releases](https://github.com/CtrlPy/batcap/releases) page.
+1. Download the `.tar.gz` archive for your system.
+2. Extract it (e.g., `tar -xzf batcap_Linux_x86_64.tar.gz`). *The binary is already executable, no `chmod` required!*
+3. Move it to your system bin path to run it from anywhere:
+   ```bash
+   sudo mv batcap /usr/local/bin/
+   ```
+
+### Option 2: Build from Source
 Make sure you have Go installed (1.20+ recommended).
 
 ```bash
-git clone https://github.com/yourusername/batcap.git
+git clone https://github.com/CtrlPy/batcap.git
 cd batcap
 go build -o batcap
 sudo mv batcap /usr/local/bin/
