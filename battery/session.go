@@ -24,7 +24,7 @@ type SessionState struct {
 }
 
 type Session struct {
-	reader *Reader
+	reader Reader
 	State  SessionState
 	ticker *time.Ticker
 	done   chan struct{}
@@ -32,7 +32,7 @@ type Session struct {
 	AutoStop chan struct{} // Channel to notify main app to stop
 }
 
-func NewSession(r *Reader) (*Session, error) {
+func NewSession(r Reader) (*Session, error) {
 	s := &Session{
 		reader:   r,
 		done:     make(chan struct{}),
