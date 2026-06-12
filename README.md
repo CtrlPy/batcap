@@ -65,6 +65,10 @@ If you have multiple batteries and want to measure a specific one:
  Difference:         -1.98 Wh (-4%)           
                                   
  Avg power draw:     12.7 W
+───────────────────────────────────
+ CONCLUSION
+ BMS Claimed Health: 100%
+ REAL TESTED HEALTH: 96% (47.80 Wh / 50.00 Wh)
 ```
 
 ## How It Works
