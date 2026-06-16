@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"batcap/battery"
+	"github.com/CtrlPy/batcap/battery"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"

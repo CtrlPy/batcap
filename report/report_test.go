@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"batcap/battery"
+	"github.com/CtrlPy/batcap/battery"
 )
 
 func TestGenerate(t *testing.T) {

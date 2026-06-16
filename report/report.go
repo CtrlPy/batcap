@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"batcap/battery"
+	"github.com/CtrlPy/batcap/battery"
 
 	"github.com/charmbracelet/lipgloss"
 )

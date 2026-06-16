@@ -1,4 +1,4 @@
-module batcap
+module github.com/CtrlPy/batcap
 
 go 1.26.3
 
