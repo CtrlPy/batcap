@@ -34,9 +34,19 @@ So `batcap` measures the battery while the laptop is running on battery power an
 
 ## Installation
 
+### go install
+
+If you have Go installed:
+
+```bash
+go install github.com/CtrlPy/batcap@latest
+```
+
+The binary will be placed in your `$GOPATH/bin` (or `$HOME/go/bin` by default).
+
 ### Download a release
 
-Download the latest binary from the Releases page:
+Download the latest binary from the [Releases](https://github.com/CtrlPy/batcap/releases) page:
 
 ```bash
 tar -xzf batcap_Linux_x86_64.tar.gz
@@ -44,8 +54,6 @@ sudo mv batcap /usr/local/bin/
 ```
 
 ### Build from source
-
-You need Go installed.
 
 ```bash
 git clone https://github.com/CtrlPy/batcap.git
