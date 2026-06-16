@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"batcap/battery"
-	"batcap/report"
-	"batcap/tui"
+	"github.com/CtrlPy/batcap/battery"
+	"github.com/CtrlPy/batcap/report"
+	"github.com/CtrlPy/batcap/tui"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
