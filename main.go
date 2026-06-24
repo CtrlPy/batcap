@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -14,11 +13,12 @@ import (
 	"github.com/CtrlPy/batcap/tui"
 
 	tea "github.com/charmbracelet/bubbletea"
+	flag "github.com/spf13/pflag"
 )
 
 func main() {
-	reset := flag.Bool("reset", false, "Reset previous session")
-	batt := flag.String("battery", "BAT0", "Battery name (e.g., BAT0)")
+	reset := flag.BoolP("reset", "r", false, "Reset previous session")
+	batt := flag.StringP("battery", "b", "BAT0", "Battery name (e.g., BAT0)")
 	flag.Parse()
 
 	reader := battery.NewReader(*batt)
@@ -79,10 +79,10 @@ func saveReport(sess *battery.Session) {
 	if err == nil {
 		timestamp := time.Now().Format("2006-01-02_15-04-05")
 		filename := filepath.Join(cwd, fmt.Sprintf("batcap_report_%s.txt", timestamp))
-		
+
 		// Remove formatting codes for the plain text file
 		fileContent := "BATCAP REPORT - " + timestamp + "\n\n" + stripANSI(finalReport) + "\n"
-		
+
 		if err := os.WriteFile(filename, []byte(fileContent), 0644); err == nil {
 			fmt.Printf("\n[+] Report successfully saved to: %s\n", filename)
 		} else {
