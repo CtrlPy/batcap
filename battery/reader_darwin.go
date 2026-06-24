@@ -1,4 +1,5 @@
 //go:build darwin
+
 package battery
 
 import (
@@ -37,9 +38,9 @@ func (r *DarwinReader) ReadInfo() (*BatteryInfo, error) {
 		return 0
 	}
 
-	voltageMv := extractInt("Voltage") // mV
+	voltageMv := extractInt("Voltage")   // mV
 	amperageMa := extractInt("Amperage") // mA
-    
+
 	isCharging := bytes.Contains(out, []byte(`"IsCharging" = Yes`))
 	isFull := bytes.Contains(out, []byte(`"FullyCharged" = Yes`))
 

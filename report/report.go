@@ -52,7 +52,7 @@ func Generate(state battery.SessionState) string {
 	if state.EnergyFull > 0 {
 		pctDropped = bmsDiff / state.EnergyFull
 	}
-	
+
 	realHealthStr := "Not enough data (discharge at least 5%)"
 	if pctDropped >= 0.05 && state.EnergyFullDesign > 0 {
 		realFullCap := state.IntegratedEnergy / pctDropped

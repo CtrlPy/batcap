@@ -1,4 +1,5 @@
 //go:build linux
+
 package battery
 
 import (
@@ -11,7 +12,6 @@ import (
 )
 
 type LinuxReader struct {
-
 	path string
 }
 
@@ -46,7 +46,7 @@ func (r *LinuxReader) ReadInfo() (*BatteryInfo, error) {
 	}
 
 	info := &BatteryInfo{}
-	
+
 	// Read voltage first, needed for fallbacks
 	voltageUv, _ := r.ReadInt("voltage_now")
 	info.VoltageNow = float64(voltageUv) / 1_000_000.0
@@ -102,10 +102,10 @@ func (r *LinuxReader) ReadInfo() (*BatteryInfo, error) {
 func ReadLaptopModel() string {
 	vendor, _ := os.ReadFile("/sys/devices/virtual/dmi/id/sys_vendor")
 	product, _ := os.ReadFile("/sys/devices/virtual/dmi/id/product_name")
-	
+
 	vStr := strings.TrimSpace(string(vendor))
 	pStr := strings.TrimSpace(string(product))
-	
+
 	if vStr != "" || pStr != "" {
 		return strings.TrimSpace(vStr + " " + pStr)
 	}

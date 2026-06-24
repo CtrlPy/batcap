@@ -7,28 +7,28 @@ import (
 )
 
 type SessionState struct {
-	StartTime         time.Time `json:"start_time"`
-	LastUpdate        time.Time `json:"last_update"`
-	EnergyStart       float64   `json:"energy_start"`
-	EnergyCurrentBMS  float64   `json:"energy_current_bms"`
-	IntegratedEnergy  float64   `json:"integrated_energy"` // How much energy actually discharged
-	InitialCapacity   int       `json:"initial_capacity"`
-	CurrentCapacity   int       `json:"current_capacity"`
-	ElapsedSeconds    float64   `json:"elapsed_seconds"`
-	PowerHistory      []float64 `json:"power_history"`
-	LaptopModel       string    `json:"laptop_model"`
-	BatteryModel      string    `json:"battery_model"`
-	CycleCount        int       `json:"cycle_count"`
-	EnergyFull        float64   `json:"energy_full"`
-	EnergyFullDesign  float64   `json:"energy_full_design"`
-	LastPower         float64   `json:"last_power"`
+	StartTime        time.Time `json:"start_time"`
+	LastUpdate       time.Time `json:"last_update"`
+	EnergyStart      float64   `json:"energy_start"`
+	EnergyCurrentBMS float64   `json:"energy_current_bms"`
+	IntegratedEnergy float64   `json:"integrated_energy"` // How much energy actually discharged
+	InitialCapacity  int       `json:"initial_capacity"`
+	CurrentCapacity  int       `json:"current_capacity"`
+	ElapsedSeconds   float64   `json:"elapsed_seconds"`
+	PowerHistory     []float64 `json:"power_history"`
+	LaptopModel      string    `json:"laptop_model"`
+	BatteryModel     string    `json:"battery_model"`
+	CycleCount       int       `json:"cycle_count"`
+	EnergyFull       float64   `json:"energy_full"`
+	EnergyFullDesign float64   `json:"energy_full_design"`
+	LastPower        float64   `json:"last_power"`
 }
 
 type Session struct {
-	reader Reader
-	State  SessionState
-	ticker *time.Ticker
-	done   chan struct{}
+	reader   Reader
+	State    SessionState
+	ticker   *time.Ticker
+	done     chan struct{}
 	updateCb func()
 	AutoStop chan struct{} // Channel to notify main app to stop
 }
@@ -97,14 +97,14 @@ func (s *Session) loop() {
 			if err != nil {
 				continue
 			}
-			
+
 			dt := now.Sub(s.State.LastUpdate).Seconds()
 			if dt < 0 {
 				dt = 1.0 // safeguard
 			} else if dt > 5.0 {
 				dt = 0 // System was suspended or lagged. Ignore this huge time gap for integration.
 			}
-			
+
 			// Integrate using Trapezoidal rule for higher scientific accuracy
 			if info.Status == "Discharging" {
 				avgPower := (info.PowerNow + s.State.LastPower) / 2.0
@@ -117,7 +117,7 @@ func (s *Session) loop() {
 			s.State.EnergyCurrentBMS = info.EnergyNow
 			s.State.CurrentCapacity = info.Capacity
 			s.State.ElapsedSeconds += dt
-			
+
 			// Append power to history for graph (keep last 60 seconds)
 			s.State.PowerHistory = append(s.State.PowerHistory, info.PowerNow)
 			if len(s.State.PowerHistory) > 60 {
@@ -129,7 +129,7 @@ func (s *Session) loop() {
 			if s.updateCb != nil {
 				s.updateCb()
 			}
-			
+
 			// Auto stop at 1% or less
 			if info.Capacity <= 1 && info.Status != "Charging" {
 				select {

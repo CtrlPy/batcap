@@ -19,7 +19,7 @@ var (
 			Background(lipgloss.Color("#7D56F4")).
 			Padding(0, 1).
 			MarginBottom(1)
-			
+
 	labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#04B575")).Bold(true)
 	valueStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#E2E1ED"))
 )
@@ -92,14 +92,14 @@ func (m Model) View() string {
 	sb.WriteString(labelStyle.Render("Elapsed Time:       ") + valueStyle.Render(battery.FormatDuration(state.ElapsedSeconds)) + "\n")
 	sb.WriteString(labelStyle.Render("Current Power Draw: ") + valueStyle.Render(fmt.Sprintf("%.2f W", power)) + "\n")
 	sb.WriteString(labelStyle.Render("Battery Capacity:   ") + valueStyle.Render(fmt.Sprintf("%d%%", state.CurrentCapacity)) + "\n")
-	
+
 	sb.WriteString("\n")
 	sb.WriteString(labelStyle.Render("Real Energy Discharged (Integral): ") + valueStyle.Render(fmt.Sprintf("%.2f Wh", state.IntegratedEnergy)) + "\n")
 	bmsDiff := state.EnergyStart - state.EnergyCurrentBMS
 	sb.WriteString(labelStyle.Render("BMS Estimated Discharged (Diff):   ") + valueStyle.Render(fmt.Sprintf("%.2f Wh", bmsDiff)) + "\n")
-	
+
 	sb.WriteString("\n")
-	
+
 	if len(state.PowerHistory) > 1 {
 		sb.WriteString(labelStyle.Render("Power Draw History (last 60s):") + "\n")
 		graph := asciigraph.Plot(state.PowerHistory, asciigraph.Height(5), asciigraph.Width(50))
