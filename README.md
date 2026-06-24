@@ -91,13 +91,13 @@ Ctrl+C
 To clear an old interrupted session and start fresh:
 
 ```bash
-batcap --reset
+batcap --reset  # or batcap -r
 ```
 
 To test a specific battery:
 
 ```bash
-batcap --battery BAT1
+batcap --battery BAT1  # or batcap -b BAT1
 ```
 
 ## Example report
