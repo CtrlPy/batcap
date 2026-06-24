@@ -48,7 +48,7 @@ func (s *Session) SetUpdateCallback(cb func()) {
 
 func (s *Session) StartOrResume(reset bool) error {
 	if reset {
-		os.Remove("/tmp/batcap-session.json")
+		_ = os.Remove("/tmp/batcap-session.json")
 	}
 
 	if err := s.loadState(); err != nil {
@@ -150,7 +150,7 @@ func (s *Session) Stop() {
 
 func (s *Session) saveState() {
 	data, _ := json.Marshal(s.State)
-	os.WriteFile("/tmp/batcap-session.json", data, 0644)
+	_ = os.WriteFile("/tmp/batcap-session.json", data, 0644)
 }
 
 func (s *Session) loadState() error {
