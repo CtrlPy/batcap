@@ -66,17 +66,15 @@ On Linux, `batcap` reads battery data from `/sys/class/power_supply`, so it usua
 
 ## Usage
 
-Charge your laptop to 100%, unplug the charger, and run:
+For the most accurate measurement:
 
-```bash
-batcap
-```
+1. **Charge your laptop to 100%** and unplug the charger.
+2. **Disable automatic sleep/suspend** in your OS settings so the test is not interrupted.
+3. Run `batcap`.
+4. **Let the laptop discharge.** You can play a long video, put on your favorite show, or use it normally. 
+5. When the battery capacity drops to 1% or less, `batcap` will automatically stop and save your report right before the laptop shuts down.
 
-Then let the laptop discharge.
-
-You can use the laptop normally, but for cleaner comparison between tests, it is better to keep the workload similar each time.
-
-When you want to stop the test, press:
+If you want to stop the test manually at any point, press:
 
 ```text
 q
