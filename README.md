@@ -133,7 +133,7 @@ In simple words:
 energy used = power draw × time
 ```
 
-The tool sums this over the whole test and shows the result in Wh.
+The tool sums this over the whole test and shows the result in Wh using trapezoidal integration for better accuracy.
 
 On Linux, it reads data from:
 
@@ -142,6 +142,33 @@ On Linux, it reads data from:
 ```
 
 On macOS, it uses system battery information from `ioreg`.
+
+### Data sources (Linux)
+
+| File | Description | Fallback if missing |
+|---|---|---|
+| `energy_now` | Current charge in µWh | `charge_now` × `voltage_now` |
+| `energy_full` | BMS full capacity in µWh | `charge_full` × `voltage_now` |
+| `energy_full_design` | Factory design capacity in µWh | `charge_full_design` × `voltage_now` |
+| `power_now` | Current power draw in µW | `current_now` × `voltage_now` |
+| `voltage_now` | Current voltage in µV | Required for fallback calculations |
+| `capacity` | Percentage (0–100) | |
+| `status` | Charging / Discharging / Full | |
+| `cycle_count` | Total charge cycles | |
+
+Some batteries report energy in `charge_*` (µAh) instead of `energy_*` (µWh). In that case, `batcap` automatically converts using the current voltage.
+
+### Session persistence
+
+`batcap` saves the current session to `/tmp/batcap-session.json` every second. If the laptop suspends, crashes, or the test is interrupted, the session will resume automatically on the next run. Use `--reset` to start a fresh session.
+
+### Built with
+
+* [Go](https://go.dev/)
+* [Bubble Tea](https://github.com/charmbracelet/bubbletea) — TUI framework
+* [Lip Gloss](https://github.com/charmbracelet/lipgloss) — styling
+* [asciigraph](https://github.com/guptarohit/asciigraph) — power draw chart
+* [pflag](https://github.com/spf13/pflag) — GNU-style flags
 
 ## A few notes
 
