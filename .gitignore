@@ -9,3 +9,7 @@ batcap_report_*.txt
 
 # Temporary files
 /tmp/batcap-session.json
+
+# Agent files
+CLAUDE.md
+agent.md
