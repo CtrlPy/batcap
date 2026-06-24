@@ -39,7 +39,7 @@ So `batcap` measures the battery while the laptop is running on battery power an
 If you have Go installed:
 
 ```bash
-go install github.com/CtrlPy/batcap@v1.3.0
+go install github.com/CtrlPy/batcap@v1.4.0
 ```
 
 The binary will be placed in your `$GOPATH/bin` (or `$HOME/go/bin` by default).
