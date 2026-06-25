@@ -101,26 +101,33 @@ batcap --battery BAT1  # or batcap -b BAT1
 ## Example report
 
 ```text
-BATTERY CAPACITY REPORT
-───────────────────────────────────
- SYSTEM INFO
- Laptop:     LENOVO 20QDCTO1WW
- Battery:    LGC 02DL004
- Cycles:     59
- BMS Health: 101% (51.47 Wh / 51.00 Wh)
-───────────────────────────────────
- Test duration:      3h 45m
- Start charge:       100% (52.40 Wh)
- End charge:         5% (2.62 Wh)
- Measured capacity:  47.80 Wh
- BMS reported:       49.78 Wh
- Difference:         -1.98 Wh (-4%)
+BATCAP REPORT - 2026-06-15_04-53-20
 
- Avg power draw:     12.7 W
-───────────────────────────────────
- CONCLUSION
- Reported health:    100%
- Tested health:      96% (47.80 Wh / 50.00 Wh)
+╔════════════════════════════════════════════════════╗
+║                                                    ║
+║        BATTERY CAPACITY REPORT                     ║
+║  ───────────────────────────────────               ║
+║   SYSTEM INFO                                      ║
+║   Laptop:     LENOVO 20QDCTO1WW                    ║
+║   Battery:    LGC 02DL004                          ║
+║   Cycles:     60                                   ║
+║   BMS Health: 102% (51.99 Wh / 51.00 Wh)           ║
+║  ───────────────────────────────────               ║
+║   Test duration:      4h 17m                       ║
+║   Start charge:       99% (51.53 Wh)               ║
+║   End charge:         1% (0.76 Wh)                 ║
+║                                                    ║
+║   REAL capacity:      33.24 Wh                     ║
+║   BMS reported:       50.77 Wh                     ║
+║   Difference:         -17.53 Wh (-35%)             ║
+║                                                    ║
+║   Avg power draw:     7.8 W                        ║
+║  ───────────────────────────────────               ║
+║   CONCLUSION                                       ║
+║   BMS Claimed Health: 102%                         ║
+║   REAL TESTED HEALTH: 67% (33.92 Wh / 51.00 Wh)    ║
+║                                                    ║
+╚════════════════════════════════════════════════════╝
 ```
 
 ## How it works
